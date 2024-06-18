@@ -17,8 +17,9 @@
 # Restrict the visibility of Android.bp files to improve build analysis time
 $(call inherit-product-if-exists, vendor/google/products/sources_pixel.mk)
 
-TARGET_KERNEL_DIR ?= device/google/pantah-kernel
-TARGET_BOARD_KERNEL_HEADERS := device/google/pantah-kernel/kernel-headers
+# Keeps flexibility for kasan and ufs builds
+TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_CHEETAH_DIR)
+TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_CHEETAH_DIR)/kernel-headers
 
 $(call inherit-product-if-exists, vendor/google_devices/pantah/prebuilts/device-vendor-cloudripper.mk)
 $(call inherit-product-if-exists, vendor/google_devices/gs201/prebuilts/device-vendor.mk)
@@ -155,13 +156,6 @@ PRODUCT_SOONG_NAMESPACES += device/google/pantah/cheetah/
 
 # Trusty liboemcrypto.so
 PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts
-ifneq (,$(filter AP1%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/24Q1
-else ifneq (,$(filter AP2% AP3%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/24Q2
-else
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/trunk
-endif
 
 # Location
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
@@ -188,3 +182,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 # Device features
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
+
+# Vibrator HAL
+$(call soong_config_set,haptics,kernel_ver,v$(subst .,_,$(TARGET_LINUX_KERNEL_VERSION)))

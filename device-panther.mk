@@ -17,17 +17,10 @@
 # Restrict the visibility of Android.bp files to improve build analysis time
 $(call inherit-product-if-exists, vendor/google/products/sources_pixel.mk)
 
-TARGET_KERNEL_DIR ?= device/google/pantah-kernel
-TARGET_BOARD_KERNEL_HEADERS := device/google/pantah-kernel/kernel-headers
-
-ifdef RELEASE_GOOGLE_PANTHER_KERNEL_VERSION
-TARGET_LINUX_KERNEL_VERSION := $(RELEASE_GOOGLE_PANTHER_KERNEL_VERSION)
-endif
-
-ifdef RELEASE_GOOGLE_PANTHER_KERNEL_DIR
-TARGET_KERNEL_DIR := $(RELEASE_GOOGLE_PANTHER_KERNEL_DIR)
-TARGET_BOARD_KERNEL_HEADERS := $(RELEASE_GOOGLE_PANTHER_KERNEL_DIR)/kernel-headers
-endif
+TARGET_LINUX_KERNEL_VERSION := $(RELEASE_KERNEL_PANTHER_VERSION)
+# Keeps flexibility for kasan and ufs builds
+TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_PANTHER_DIR)
+TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_PANTHER_DIR)/kernel-headers
 
 $(call inherit-product-if-exists, vendor/google_devices/pantah/prebuilts/device-vendor-panther.mk)
 $(call inherit-product-if-exists, vendor/google_devices/gs201/prebuilts/device-vendor.mk)
@@ -142,6 +135,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.bluetooth.a2dp_offload.disabled=false \
     persist.bluetooth.a2dp_offload.cap=sbc-aac-aptx-aptxhd-ldac-opus
 
+# Enable Bluetooth AutoOn feature
+PRODUCT_PRODUCT_PROPERTIES += \
+    bluetooth.server.automatic_turn_on=true
+
 # Bluetooth hci_inject test tool
 PRODUCT_PACKAGES_DEBUG += \
     hci_inject
@@ -197,6 +194,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     persist.bluetooth.leaudio.allow_list=SM-R510
 
+# Support LE & Classic concurrent encryption (b/330704060)
+PRODUCT_PRODUCT_PROPERTIES += \
+    bluetooth.ble.allow_enc_with_bredr=true
 
 # Bluetooth EWP test tool
 PRODUCT_PACKAGES_DEBUG += \
@@ -263,13 +263,6 @@ PRODUCT_SOONG_NAMESPACES += \
 
 # Fingerprint HAL
 GOODIX_CONFIG_BUILD_VERSION := g7_trusty
-ifneq (,$(filter AP1%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/firmware/fingerprint/24Q1
-else ifneq (,$(filter AP2% AP3%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/firmware/fingerprint/24Q2
-else
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/firmware/fingerprint/trunk
-endif
 $(call inherit-product-if-exists, vendor/goodix/udfps/configuration/udfps_common.mk)
 ifeq ($(filter factory%, $(TARGET_PRODUCT)),)
 $(call inherit-product-if-exists, vendor/goodix/udfps/configuration/udfps_shipping.mk)
@@ -289,13 +282,6 @@ PRODUCT_SOONG_NAMESPACES += device/google/pantah/panther/
 
 # Trusty liboemcrypto.so
 PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts
-ifneq (,$(filter AP1%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/24Q1
-else ifneq (,$(filter AP2% AP3%,$(RELEASE_PLATFORM_VERSION)))
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/24Q2
-else
-PRODUCT_SOONG_NAMESPACES += vendor/google_devices/pantah/prebuilts/trusty/trunk
-endif
 
 # Location
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
@@ -320,7 +306,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 # Increment the SVN for any official public releases
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.build.svn=57
+    ro.vendor.build.svn=58
 
 # DCK properties based on target
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -355,6 +341,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.udfps.lhbm_controlled_in_hal_supported=true
 
 # Vibrator HAL
+$(call soong_config_set,haptics,kernel_ver,v$(subst .,_,$(TARGET_LINUX_KERNEL_VERSION)))
 ACTUATOR_MODEL := luxshare_ict_081545
 ADAPTIVE_HAPTICS_FEATURE := adaptive_haptics_v1
 PRODUCT_VENDOR_PROPERTIES += \

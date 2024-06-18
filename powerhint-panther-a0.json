@@ -922,7 +922,7 @@
       "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
       "Node": "CPUMidClusterMaxFreq",
       "Duration": 2500,
-      "Value": "1197000"
+      "Value": "1663000"
     },
     {
       "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
@@ -1846,25 +1846,19 @@
     {
       "PowerHint": "FACE_UNLOCK_BOOST",
       "Node": "CPUBigClusterMaxFreq",
-      "Duration": 1000,
+      "Duration": 500,
       "Value": "9999999"
     },
     {
       "PowerHint": "FACE_UNLOCK_BOOST",
-      "Node": "CPU_LITTLE_TSKIN_BYPASS",
-      "Duration": 1000,
-      "Value": "1"
-    },
-    {
-      "PowerHint": "FACE_UNLOCK_BOOST",
-      "Node": "CPU_MID_TSKIN_BYPASS",
-      "Duration": 1000,
-      "Value": "1"
+      "Node": "CPUBigClusterMinFreq",
+      "Duration": 500,
+      "Value": "1826000"
     },
     {
       "PowerHint": "FACE_UNLOCK_BOOST",
       "Node": "CPU_BIG_TSKIN_BYPASS",
-      "Duration": 1000,
+      "Duration": 500,
       "Value": "1"
     },
     {
@@ -2010,6 +2004,8 @@
       "UclampMin_Init": 232,
       "UclampMin_High": 480,
       "UclampMin_Low": 2,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "SamplingWindow_P": 1,
       "SamplingWindow_I": 0,
       "SamplingWindow_D": 1,
@@ -2017,7 +2013,16 @@
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
       "TargetTimeFactor": 1.0,
-      "StaleTimeFactor": 20.0
+      "StaleTimeFactor": 20.0,
+      "HeuristicBoost_On": true,
+      "HBoostOnMissedCycles": 8,
+      "HBoostOffMaxAvgRatio": 4.0,
+      "HBoostOffMissedCycles": 5,
+      "HBoostPidPuFactor": 0.5,
+      "HBoostUclampMin": 722,
+      "JankCheckTimeFactor": 1.2,
+      "LowFrameRateThreshold": 25,
+      "MaxRecordsNum": 300
     },
     {
       "Name": "REFRESH_90FPS",
@@ -2034,6 +2039,8 @@
       "UclampMin_Init": 162,
       "UclampMin_High": 480,
       "UclampMin_Low": 2,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "SamplingWindow_P": 1,
       "SamplingWindow_I": 0,
       "SamplingWindow_D": 1,
@@ -2041,7 +2048,16 @@
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
       "TargetTimeFactor": 1.0,
-      "StaleTimeFactor": 20.0
+      "StaleTimeFactor": 20.0,
+      "HeuristicBoost_On": true,
+      "HBoostOnMissedCycles": 8,
+      "HBoostOffMaxAvgRatio": 4.0,
+      "HBoostOffMissedCycles": 5,
+      "HBoostPidPuFactor": 0.5,
+      "HBoostUclampMin": 722,
+      "JankCheckTimeFactor": 1.2,
+      "LowFrameRateThreshold": 25,
+      "MaxRecordsNum": 300
     },
     {
       "Name": "REFRESH_60FPS",
@@ -2058,6 +2074,8 @@
       "UclampMin_Init": 162,
       "UclampMin_High": 480,
       "UclampMin_Low": 2,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "SamplingWindow_P": 1,
       "SamplingWindow_I": 0,
       "SamplingWindow_D": 1,
@@ -2065,7 +2083,16 @@
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
       "TargetTimeFactor": 1.0,
-      "StaleTimeFactor": 20.0
+      "StaleTimeFactor": 20.0,
+      "HeuristicBoost_On": true,
+      "HBoostOnMissedCycles": 8,
+      "HBoostOffMaxAvgRatio": 4.0,
+      "HBoostOffMissedCycles": 5,
+      "HBoostPidPuFactor": 0.5,
+      "HBoostUclampMin": 722,
+      "JankCheckTimeFactor": 1.2,
+      "LowFrameRateThreshold": 25,
+      "MaxRecordsNum": 300
     },
     {
       "Name": "UiHighBoostWithoutPid",
@@ -2085,6 +2112,8 @@
       "UclampMin_Init": 250,
       "UclampMin_High": 197,
       "UclampMin_Low": 197,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "ReportingRateLimitNs": 1,
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
@@ -2109,6 +2138,8 @@
       "UclampMin_Init": 250,
       "UclampMin_High": 53,
       "UclampMin_Low": 53,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "ReportingRateLimitNs": 1,
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
@@ -2133,6 +2164,8 @@
       "UclampMin_Init": 250,
       "UclampMin_High": 0,
       "UclampMin_Low": 0,
+      "UclampMax_EfficientBase": 500,
+      "UclampMax_EfficientOffset": 200,
       "ReportingRateLimitNs": 1,
       "EarlyBoost_On": false,
       "EarlyBoost_TimeFactor": 0.0,
