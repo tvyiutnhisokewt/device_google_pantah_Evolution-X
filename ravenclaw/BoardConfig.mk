@@ -15,12 +15,13 @@
 #
 TARGET_BOARD_INFO_FILE := device/google/pantah/board-info.txt
 TARGET_BOOTLOADER_BOARD_NAME := ravenclaw
-ifneq (,$(filter AP1%,$(RELEASE_PLATFORM_VERSION)))
-RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/24Q1
-else ifneq (,$(filter AP2% AP3%,$(RELEASE_PLATFORM_VERSION)))
-RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/24Q2
+RELEASE_GOOGLE_BOOTLOADER_CHEETAH_DIR ?= pdk# Keep this for pdk TODO: b/327119000
+RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/$(RELEASE_GOOGLE_BOOTLOADER_CHEETAH_DIR)
+$(call soong_config_set,pantah_bootloader,prebuilt_dir,$(RELEASE_GOOGLE_BOOTLOADER_CHEETAH_DIR))
+ifneq ($(filter trunk%, $(RELEASE_GOOGLE_BOOTLOADER_CHEETAH_DIR)),)
+$(call soong_config_set,pantah_fingerprint,prebuilt_dir,trunk)
 else
-RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/trunk
+$(call soong_config_set,pantah_fingerprint,prebuilt_dir,$(RELEASE_GOOGLE_BOOTLOADER_CHEETAH_DIR))
 endif
 TARGET_SCREEN_DENSITY := 560
 BOARD_USES_GENERIC_AUDIO := true
