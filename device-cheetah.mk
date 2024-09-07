@@ -466,8 +466,9 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.quick_start.device_id=cheetah
 
 # Bluetooth device id
+# Cheetah: 0x410A
 PRODUCT_PRODUCT_PROPERTIES += \
-    bluetooth.device_id.product_id=20490
+    bluetooth.device_id.product_id=16650
 
 # ETM
 ifneq (,$(RELEASE_ETM_IN_USERDEBUG_ENG))
