@@ -67,6 +67,13 @@
         @left
     </string>
 
+     <!-- The properties of the face auth camera in pixels -->
+     <integer-array name="config_face_auth_props">
+          <item>677</item> <!-- sensorLocationX -->
+          <item>72</item> <!-- sensorLocationY -->
+          <item>43</item><!--sensorRadius -->
+     </integer-array>
+
     <!-- Not allow to switch to higher refresh rate when display brightness setting is
          equal or less than this value -->
     <integer-array name="config_brightnessThresholdsOfPeakRefreshRate">
