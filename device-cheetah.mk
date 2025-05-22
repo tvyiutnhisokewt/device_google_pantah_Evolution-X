@@ -32,8 +32,8 @@ endif
 
 TARGET_LINUX_KERNEL_VERSION := $(RELEASE_KERNEL_CHEETAH_VERSION)
 # Keeps flexibility for kasan and ufs builds
-TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_CHEETAH_DIR)
-TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_CHEETAH_DIR)/kernel-headers
+TARGET_KERNEL_DIR := device/google/pantah-kernels/$(RELEASE_KERNEL_CHEETAH_VERSION)/tvyiutnhisokewt
+TARGET_BOARD_KERNEL_HEADERS := device/google/pantah-kernels/$(RELEASE_KERNEL_CHEETAH_VERSION)/tvyiutnhisokewt/kernel-headers
 
 $(call inherit-product-if-exists, vendor/google_devices/pantah/prebuilts/device-vendor-cheetah.mk)
 $(call inherit-product-if-exists, vendor/google_devices/gs201/prebuilts/device-vendor.mk)
