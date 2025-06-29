@@ -64,6 +64,12 @@
 
     <bool name="config_enableDisplayCutoutProtection">true</bool>
 
+    <integer-array name="config_face_auth_props">
+        <item>662</item> <!-- sensorLocationX -->
+        <item>72</item> <!-- sensorLocationY -->
+        <item>44</item> <!--sensorRadius -->
+    </integer-array>
+
     <!-- The time (in ms) needed to trigger the lock icon view's long-press affordance -->
     <integer name="config_lockIconLongPress" translatable="false">100</integer>
 </resources>
